@@ -29,9 +29,9 @@ public class SignInActivity extends AppCompatActivity {
 
         //Sign In for Testing
         int initID = 1;
-        Intent i = new Intent(SignInActivity.this, HomeScreenActivity.class);
+        /*Intent i = new Intent(SignInActivity.this, HomeScreenActivity.class);
         i.putExtra("initID", initID);
-        startActivity(i);
+        startActivity(i);*/
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
