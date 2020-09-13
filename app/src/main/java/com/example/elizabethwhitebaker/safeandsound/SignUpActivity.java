@@ -8,10 +8,10 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -127,8 +127,8 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 } else {
                     AlertDialog a = new AlertDialog.Builder(btnSignUp.getContext()).create();
-                    a.setTitle("Invalid Information");
-                    a.setMessage("Please make sure you've filled out all the fields");
+                    a.setTitle("No");
+                    a.setMessage("No");
                     a.show();
                 }
             }

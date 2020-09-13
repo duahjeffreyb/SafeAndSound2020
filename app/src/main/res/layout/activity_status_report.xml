@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_status_report"
@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusReportTextView">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/scrollViewConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -53,14 +53,14 @@
                 app:layout_constraintStart_toStartOf="@+id/scrollViewConstraintLayout"
                 app:layout_constraintTop_toTopOf="@+id/scrollViewConstraintLayout" />
 
-            <androidx.constraintlayout.widget.Guideline
+            <android.support.constraint.Guideline
                 android:id="@+id/statusReportGuideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.5" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
     <Button
@@ -75,4 +75,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

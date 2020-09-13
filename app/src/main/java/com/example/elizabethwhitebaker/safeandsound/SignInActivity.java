@@ -3,8 +3,8 @@ package com.example.elizabethwhitebaker.safeandsound;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,9 +29,9 @@ public class SignInActivity extends AppCompatActivity {
 
         //Sign In for Testing
         int initID = 1;
-        Intent i = new Intent(SignInActivity.this, HomeScreenActivity.class);
+        /*Intent i = new Intent(SignInActivity.this, HomeScreenActivity.class);
         i.putExtra("initID", initID);
-        startActivity(i);
+        startActivity(i);*/
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
