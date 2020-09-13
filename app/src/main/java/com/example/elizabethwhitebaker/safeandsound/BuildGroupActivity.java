@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 //import android.provider.ContactsContract;
 //import android.support.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.appcompat.app.AppCompatActivity;
@@ -137,6 +138,12 @@ public class BuildGroupActivity extends AppCompatActivity implements
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(groupNameET.getText().toString().isEmpty()){
+                    AlertDialog a = new AlertDialog.Builder(btnDone.getContext()).create();
+                    a.setTitle("Empty Field");
+                    a.setMessage("Please put a group name");
+                    a.show();
+                }
                 if(!groupNameET.getText().toString().isEmpty() ) {
                     handler = new DBHandler(getApplicationContext());
                     boolean same = false;
