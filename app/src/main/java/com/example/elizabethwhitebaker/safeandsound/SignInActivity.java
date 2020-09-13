@@ -46,8 +46,8 @@ public class SignInActivity extends AppCompatActivity {
                     startActivity(i);
                 } catch(Exception e) {
                     AlertDialog a = new AlertDialog.Builder(btnSignIn.getContext()).create();
-                    a.setTitle("Invalid Credentials");
-                    a.setMessage("Please provide your account credentials.");
+                    a.setTitle("Incorrect Username or Password");
+                    a.setMessage("Please provide the correct account credentials.");
                     a.show();
                 }
             }
