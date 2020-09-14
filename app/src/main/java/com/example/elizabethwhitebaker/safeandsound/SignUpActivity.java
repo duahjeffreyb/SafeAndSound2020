@@ -112,9 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
                         && initImageView.getVisibility() == View.VISIBLE && !path.equals("")
                         && !phone.equals("") && !pass.equals("") && !confPass.equals("") && pass.equals(confPass)) {
                     Initiator initiator = new Initiator(first, last, user, path, phone, pass);
-                    //Member member = new Member(first, last ,phone);
                     handler.addHandler(initiator);
-                    //handler.addHandler(member);
                     initiator = handler.findHandler(user, pass);
                     handler.close();
                     if (initiator != null) {
