@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         DBHandler handler = new DBHandler(this);
 
         initID = getIntent().getIntExtra("initID", 0);
+        final String name = getIntent().getStringExtra("name");
 
         Button btnBuildGroup = findViewById(R.id.buildGroupButton);
         Button btnAddToGroup = findViewById(R.id.addToGroupButton);
@@ -31,6 +33,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         Button btnSignOut = findViewById(R.id.signOutButton);
         Button btnCheckEvent = findViewById(R.id.checkEventButton);
         Button btnCreateEvent = findViewById(R.id.createEventButton);
+        TextView welcome = findViewById(R.id.welcomeTextView);
 
         btnSendMsgs.setEnabled(false);
         btnCreateEvent.setEnabled(false);
@@ -47,6 +50,9 @@ public class HomeScreenActivity extends AppCompatActivity {
             handler.addHandler(new Member("Tyler", "Hall", "+19102741577"));
             handler.addHandler(new Member("Codie", "Nichols", "+19105201955"));
         }
+
+        welcome.setText(getString(R.string.welcome_org_text) + ", " + name);
+
 
         handler.close();
 
@@ -66,6 +72,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(HomeScreenActivity.this, BuildGroupActivity.class);
                 i.putExtra("initID", initID);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });
@@ -75,6 +82,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(HomeScreenActivity.this, CreateEventActivity.class);
                 i.putExtra("initID", initID);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });
@@ -84,6 +92,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(HomeScreenActivity.this, AddToGroupActivity.class);
                 i.putExtra("initID", initID);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });
@@ -93,6 +102,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(HomeScreenActivity.this, RemoveFromGroupActivity.class);
                 i.putExtra("initID", initID);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });
@@ -102,6 +112,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(HomeScreenActivity.this, CheckEventActivity.class);
                 i.putExtra("initID", initID);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });
@@ -111,6 +122,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(HomeScreenActivity.this, SendMessagesActivity.class);
                 i.putExtra("initID", initID);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });

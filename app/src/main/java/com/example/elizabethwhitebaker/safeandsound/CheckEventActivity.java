@@ -26,6 +26,8 @@ public class CheckEventActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_check_event);
 
         initID = getIntent().getIntExtra("initID", 0);
+        final String name = getIntent().getStringExtra("name");
+
 
         intent = new Intent(CheckEventActivity.this, StatusReportActivity.class);
 
@@ -52,6 +54,7 @@ public class CheckEventActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 Intent i = new Intent(CheckEventActivity.this, HomeScreenActivity.class);
                 i.putExtra("initID", initID);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });

@@ -51,6 +51,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
 //        }
 
         initID = getIntent().getIntExtra("initID", 0);
+        final String name = getIntent().getStringExtra("name");
 
         checkBoxes = new ArrayList<>();
         memNames = new ArrayList<>();
@@ -167,6 +168,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
                         handler.close();
                         Intent i = new Intent(BuildGroupActivity.this, HomeScreenActivity.class);
                         i.putExtra("initID", initID);
+                        i.putExtra("name", name);
                         startActivity(i);
                     }
                 }
@@ -178,6 +180,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 Intent i = new Intent(BuildGroupActivity.this, HomeScreenActivity.class);
                 i.putExtra("initID", initID);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });

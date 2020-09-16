@@ -33,6 +33,8 @@ public class AddToGroupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_mems_to_group);
 
         initID = getIntent().getIntExtra("initID", 0);
+        final String name = getIntent().getStringExtra("name");
+
 
         checkBoxes = new ArrayList<>();
         groupNames = new ArrayList<>();
@@ -204,6 +206,7 @@ public class AddToGroupActivity extends AppCompatActivity {
                 handler.close();
                 Intent i = new Intent(AddToGroupActivity.this, HomeScreenActivity.class);
                 i.putExtra("initID", initID);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });
@@ -213,6 +216,7 @@ public class AddToGroupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(AddToGroupActivity.this, HomeScreenActivity.class);
                 i.putExtra("initID", initID);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });

@@ -56,6 +56,8 @@ public class SendMessagesActivity extends AppCompatActivity implements
         groupNames = new ArrayList<>();
 
         groupSpinner = findViewById(R.id.groupSpinner);
+        final String name = getIntent().getStringExtra("name");
+
 
         btnDeleteChecked = findViewById(R.id.deleteCheckedButton);
         btnDeleteAll = findViewById(R.id.deleteAllButton);
@@ -80,6 +82,7 @@ public class SendMessagesActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 Intent back = new Intent(SendMessagesActivity.this, HomeScreenActivity.class);
                 back.putExtra("initID", getIntent().getIntExtra("initID", 0));
+                back.putExtra("name", name);
                 startActivity(back);
             }
         });
@@ -165,6 +168,7 @@ public class SendMessagesActivity extends AppCompatActivity implements
 //                startActivity(i);
                 Intent home = new Intent(SendMessagesActivity.this, HomeScreenActivity.class);
                 home.putExtra("initID", getIntent().getIntExtra("initID", 0));
+                home.putExtra("name", name);
                 startActivity(home);
             }
         });
