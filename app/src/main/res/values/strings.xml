@@ -81,4 +81,5 @@
     <string name="g">GOOD</string>
     <string name="b">BAD</string>
     <string name="u">UNK</string>
+    <string name="profile_button">Profile</string>
 </resources>

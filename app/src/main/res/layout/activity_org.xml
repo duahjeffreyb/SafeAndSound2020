@@ -142,11 +142,25 @@
             android:layout_width="match_parent"
             android:layout_height="24dp" />
 
-        <Button
-            android:id="@+id/signOutButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="317dp"
             android:layout_height="wrap_content"
-            android:text="@string/signout" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/profile_button"
+                android:layout_width="165dp"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_button" />
+
+            <Button
+                android:id="@+id/signOutButton"
+                android:layout_width="146dp"
+                android:layout_height="wrap_content"
+                android:text="@string/signout" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

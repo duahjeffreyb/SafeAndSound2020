@@ -32,6 +32,8 @@ public class StatusReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_status_report);
 
         initID = getIntent().getIntExtra("initID", 0);
+        final String name = getIntent().getStringExtra("name");
+
         String eventName = getIntent().getStringExtra("event");
         String eventGroup = eventName + " Group";
 
@@ -114,6 +116,7 @@ public class StatusReportActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(StatusReportActivity.this, HomeScreenActivity.class);
                 i.putExtra("initID", initID);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });

@@ -34,6 +34,7 @@ public class CreateEventActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_create_event);
 
         initID = getIntent().getIntExtra("initID", 0);
+        final String name = getIntent().getStringExtra("name");
 
         checkBoxes = new ArrayList<>();
         groupNames = new ArrayList<>();
@@ -149,6 +150,7 @@ public class CreateEventActivity extends AppCompatActivity implements
                     handler.close();
                     Intent i = new Intent(CreateEventActivity.this, HomeScreenActivity.class);
                     i.putExtra("initID", initID);
+                    i.putExtra("name", name);
                     startActivity(i);
                 }
             }
@@ -159,6 +161,7 @@ public class CreateEventActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 Intent i = new Intent(CreateEventActivity.this, HomeScreenActivity.class);
                 i.putExtra("initID", initID);
+                i.putExtra("name", name);
                 startActivity(i);
             }
         });
