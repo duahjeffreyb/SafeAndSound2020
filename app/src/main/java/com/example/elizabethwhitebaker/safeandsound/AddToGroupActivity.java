@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +34,8 @@ public class AddToGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_mems_to_group);
 
+        String names[] = {};
+        //ContactsContract.Contacts.DISPLAY_NAME_PRIMARY
         initID = getIntent().getIntExtra("initID", 0);
         final String name = getIntent().getStringExtra("name");
 

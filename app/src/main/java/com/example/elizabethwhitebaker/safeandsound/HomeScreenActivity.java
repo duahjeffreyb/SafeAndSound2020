@@ -1,6 +1,7 @@
 package com.example.elizabethwhitebaker.safeandsound;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,8 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         initID = getIntent().getIntExtra("initID", 0);
         final String name = getIntent().getStringExtra("name");
+        final String user = getIntent().getStringExtra("user");
+        final String pass = getIntent().getStringExtra("pass");
 
         Button btnBuildGroup = findViewById(R.id.buildGroupButton);
         Button btnAddToGroup = findViewById(R.id.addToGroupButton);
@@ -33,6 +36,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         Button btnSignOut = findViewById(R.id.signOutButton);
         Button btnCheckEvent = findViewById(R.id.checkEventButton);
         Button btnCreateEvent = findViewById(R.id.createEventButton);
+        Button btnProfile = findViewById(R.id.profile_button);
         TextView welcome = findViewById(R.id.welcomeTextView);
 
         btnSendMsgs.setEnabled(false);
@@ -131,6 +135,18 @@ public class HomeScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeScreenActivity.this, MainActivity.class));
+            }
+        });
+
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeScreenActivity.this, ProfileActivity.class);
+                i.putExtra("initID", initID);
+                i.putExtra("name", name);
+                i.putExtra("user", user);
+                i.putExtra("pass", pass);
+                startActivity(i);
             }
         });
 

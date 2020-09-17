@@ -44,6 +44,8 @@ public class SignInActivity extends AppCompatActivity {
                     Intent i = new Intent(SignInActivity.this, HomeScreenActivity.class);
                     i.putExtra("initID", initiator.getInitiatorID());
                     i.putExtra("name", initiator.getFirstName());
+                    i.putExtra("user", user);
+                    i.putExtra("pass", pass);
                     startActivity(i);
                 } catch(Exception e) {
                     AlertDialog a = new AlertDialog.Builder(btnSignIn.getContext()).create();
