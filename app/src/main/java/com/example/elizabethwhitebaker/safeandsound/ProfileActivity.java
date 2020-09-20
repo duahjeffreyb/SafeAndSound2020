@@ -3,6 +3,7 @@ package com.example.elizabethwhitebaker.safeandsound;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 public class ProfileActivity extends AppCompatActivity {
     private int initID;
@@ -18,6 +19,7 @@ public class ProfileActivity extends AppCompatActivity {
         final String pass = getIntent().getStringExtra("pass");
 
         Initiator userProfile = handler.findHandler(user, pass);
+
 
 
     }

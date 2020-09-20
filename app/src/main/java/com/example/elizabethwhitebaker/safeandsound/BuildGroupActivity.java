@@ -1,16 +1,23 @@
 package com.example.elizabethwhitebaker.safeandsound;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 //import android.content.pm.PackageManager;
 //import android.database.Cursor;
 //import android.os.Build;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 //import android.provider.ContactsContract;
 //import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,8 +25,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static android.Manifest.permission.READ_CONTACTS;
 
 //import static android.Manifest.permission.READ_CONTACTS;
 
@@ -43,12 +53,20 @@ public class BuildGroupActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_build_group);
+        if(Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            if(checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED){
+                getContactList();
+            }
+            else{
+                if(shouldShowRequestPermissionRationale(READ_CONTACTS)){
 
-//        if(Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-//            int hasContactPermission = checkSelfPermission(READ_CONTACTS);
+                    Toast.makeText(this, "Contact permission is needed to communicate with others through the app", Toast.LENGTH_SHORT);
+                }
+                requestPermissions(new String[]{READ_CONTACTS}, READ_CONTACTS.hashCode());
+            }
 //            if(hasContactPermission != PackageManager.PERMISSION_GRANTED)
 //                requestPermissions(new String[]{READ_CONTACTS}, CONTACTS);
-//        }
+                }
 
         initID = getIntent().getIntExtra("initID", 0);
         final String name = getIntent().getStringExtra("name");
@@ -211,9 +229,12 @@ public class BuildGroupActivity extends AppCompatActivity implements
                 android.R.layout.simple_spinner_item, memNames);
         memberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         memberSpinner.setAdapter(memberAdapter);
+
     }
 
-//    private void getContactList() {
+
+
+    private void getContactList() {
 //        Cursor c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
 //                null, null, null, null);
 //        if (c != null) {
@@ -224,9 +245,24 @@ public class BuildGroupActivity extends AppCompatActivity implements
 //            }
 //            c.close();
 //        }
-//    }
+   }
 
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == READ_CONTACTS.hashCode()){
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                getContactList();
+            }
+            else{
+                Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT);
+            }
+        }
+        else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    //    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 //        if (requestCode == CONTACTS) {
 //            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //                Toast.makeText(getApplicationContext(), "Permission Granted, Now you can access sms", Toast.LENGTH_SHORT).show();
