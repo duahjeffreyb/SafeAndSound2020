@@ -1,12 +1,11 @@
 package com.example.elizabethwhitebaker.safeandsound;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 //import android.content.pm.PackageManager;
 //import android.database.Cursor;
 //import android.os.Build;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 //import android.provider.ContactsContract;
@@ -18,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -46,8 +46,8 @@ public class BuildGroupActivity extends AppCompatActivity implements
     private ConstraintLayout scrollView;
     private ArrayList<CheckBox> checkBoxes;
     private ArrayList<String> memNames;
-//    private ArrayList<Member> contacts;
     private int initID;
+    private ArrayList<Member> contacts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +70,9 @@ public class BuildGroupActivity extends AppCompatActivity implements
 
         initID = getIntent().getIntExtra("initID", 0);
         final String name = getIntent().getStringExtra("name");
+
+        final ArrayList<String> contacts;
+
 
         checkBoxes = new ArrayList<>();
         memNames = new ArrayList<>();
@@ -205,13 +208,13 @@ public class BuildGroupActivity extends AppCompatActivity implements
     }
 
     private void loadSpinnerData() {
-//        getContactList();
+        getContactList();
 //        populateMembersTable();
         handler = new DBHandler(this);
         ArrayList<Member> ms = handler.getAllMembers();
         memNames.clear();
         memNames.add("Select name");
-        for(Member m : ms)
+        for(Member m : contacts)
             memNames.add(m.getFirstName() + " " + m.getLastName());
         ArrayAdapter<String> memberAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, memNames);
@@ -235,17 +238,21 @@ public class BuildGroupActivity extends AppCompatActivity implements
 
 
     private void getContactList() {
-//        Cursor c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-//                null, null, null, null);
-//        if (c != null) {
-//            while(c.moveToNext()) {
-//                String name = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-//                String phone = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-//                contacts.add(name + " : " + phone);
-//            }
-//            c.close();
-//        }
-   }
+        Cursor c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null, null, null, null);
+        if (c != null) {
+            while(c.moveToNext()) {
+                String fullName = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_ALTERNATIVE));
+                String[] names = fullName.split(",");
+                String phone = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                String last = names[0];
+                String first = names[1].replaceAll("\\s+", "");
+                Member member = new Member(first, last, phone);
+                contacts.add(member);
+            }
+            c.close();
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
