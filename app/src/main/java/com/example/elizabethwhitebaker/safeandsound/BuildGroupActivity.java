@@ -214,8 +214,10 @@ public class BuildGroupActivity extends AppCompatActivity implements
         ArrayList<Member> ms = handler.getAllMembers();
         memNames.clear();
         memNames.add("Select name");
-        for(Member m : contacts)
+        for(Member m : contacts) {
+            //Log.i("name", m.getFirstName());
             memNames.add(m.getFirstName() + " " + m.getLastName());
+        }
         ArrayAdapter<String> memberAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, memNames);
         memberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -238,6 +240,10 @@ public class BuildGroupActivity extends AppCompatActivity implements
 
 
     private void getContactList() {
+        if(contacts.size() > 0){
+            return;
+        }
+
         Cursor c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null, null, null, null);
         if (c != null) {
