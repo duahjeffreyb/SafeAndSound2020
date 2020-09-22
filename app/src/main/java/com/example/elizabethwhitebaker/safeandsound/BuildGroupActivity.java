@@ -67,16 +67,13 @@ public class BuildGroupActivity extends AppCompatActivity implements
 //            if(hasContactPermission != PackageManager.PERMISSION_GRANTED)
 //                requestPermissions(new String[]{READ_CONTACTS}, CONTACTS);
                 }
-
+        
         initID = getIntent().getIntExtra("initID", 0);
         final String name = getIntent().getStringExtra("name");
-
-        final ArrayList<String> contacts;
 
 
         checkBoxes = new ArrayList<>();
         memNames = new ArrayList<>();
-//        contacts = new ArrayList<>();
 
         groupNameET = findViewById(R.id.groupNameEditText);
 
@@ -181,6 +178,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
                             String name = checkBox.getText().toString();
                             Member m = handler.findHandlerMember(name.substring(0, name.indexOf(" ")),
                                     name.substring(name.indexOf(" ") + 1));
+                            Log.i("name", m.getFirstName());
                             GroupMember gM = new GroupMember(group.getGroupID(), m.getMemberID());
                             handler.addHandler(gM);
                         }
@@ -215,7 +213,6 @@ public class BuildGroupActivity extends AppCompatActivity implements
         memNames.clear();
         memNames.add("Select name");
         for(Member m : contacts) {
-            //Log.i("name", m.getFirstName());
             memNames.add(m.getFirstName() + " " + m.getLastName());
         }
         ArrayAdapter<String> memberAdapter = new ArrayAdapter<>(this,
@@ -243,18 +240,22 @@ public class BuildGroupActivity extends AppCompatActivity implements
         if(contacts.size() > 0){
             return;
         }
-
+        int count = 1;
         Cursor c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null, null, null, null);
+        handler = new DBHandler(this);
         if (c != null) {
             while(c.moveToNext()) {
+                handler = new DBHandler(this);
                 String fullName = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_ALTERNATIVE));
-                String[] names = fullName.split(",");
-                String phone = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                String last = names[0];
-                String first = names[1].replaceAll("\\s+", "");
+                String phone = "+" + c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replaceAll("[\\(\\)\\s\\-]", "");
+                String last = fullName.substring(0, fullName.indexOf(","));
+                String first = fullName.substring(fullName.indexOf(",") + 2);
                 Member member = new Member(first, last, phone);
+                Log.i("name", last);
                 contacts.add(member);
+                handler.addHandler(member);
+                count++;
             }
             c.close();
         }
