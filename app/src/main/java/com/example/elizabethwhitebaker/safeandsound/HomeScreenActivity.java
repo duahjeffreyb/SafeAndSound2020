@@ -49,11 +49,11 @@ public class HomeScreenActivity extends AppCompatActivity {
         ArrayList<Event> events = handler.getAllEvents();
         ArrayList<Member> members = handler.getAllMembers();
 
-        if(members.size() == 0) {
+        /*if(members.size() == 0) {
             handler.addHandler(new Member("Elizabeth", "Baker", "+13366181185"));
             handler.addHandler(new Member("Tyler", "Hall", "+19102741577"));
             handler.addHandler(new Member("Codie", "Nichols", "+19105201955"));
-        }
+        }*/
 
         welcome.setText(getString(R.string.welcome_org_text) + ", " + name);
 
