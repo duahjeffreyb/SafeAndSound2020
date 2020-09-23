@@ -1,5 +1,6 @@
 package com.example.elizabethwhitebaker.safeandsound;
 
+import android.Manifest;
 import android.content.Intent;
 //import android.content.pm.PackageManager;
 //import android.database.Cursor;
@@ -37,7 +38,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
         AdapterView.OnItemSelectedListener {
 //    private static final String TAG = "BuildGroupActivity";
 
-//    private static final int CONTACTS = 1234;
+    private static final int CONTACTS = 1234;
 
     private DBHandler handler;
     private EditText groupNameET;
@@ -48,26 +49,30 @@ public class BuildGroupActivity extends AppCompatActivity implements
     private ArrayList<String> memNames;
     private int initID;
     private ArrayList<Member> contacts = new ArrayList<>();
+    //private static final int REQUEST_READ_CONTACTS = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_build_group);
-        if(Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            if(checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED){
-                getContactList();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED){
+
             }
             else{
-                if(shouldShowRequestPermissionRationale(READ_CONTACTS)){
+                if(shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)){
 
-                    Toast.makeText(this, "Contact permission is needed to communicate with others through the app", Toast.LENGTH_SHORT);
+                    Toast.makeText(this, "Contact permission is needed to communicate with others through the app", Toast.LENGTH_SHORT).show();
                 }
-                requestPermissions(new String[]{READ_CONTACTS}, READ_CONTACTS.hashCode());
+                requestPermissions(new String[]{READ_CONTACTS}, CONTACTS);
+
             }
+        }
 //            if(hasContactPermission != PackageManager.PERMISSION_GRANTED)
 //                requestPermissions(new String[]{READ_CONTACTS}, CONTACTS);
-                }
-        
+
         initID = getIntent().getIntExtra("initID", 0);
         final String name = getIntent().getStringExtra("name");
 
@@ -87,7 +92,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
         scrollView = findViewById(R.id.scrollViewConstraintLayout);
 
         memberSpinner.setOnItemSelectedListener(this);
-        loadSpinnerData();
+        //loadSpinnerData();
 
         btnDeleteChecked.setEnabled(false);
         btnDeleteAll.setEnabled(false);
@@ -263,9 +268,9 @@ public class BuildGroupActivity extends AppCompatActivity implements
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == READ_CONTACTS.hashCode()){
+        if(requestCode == CONTACTS){
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                getContactList();
+                loadSpinnerData();
             }
             else{
                 Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT);
