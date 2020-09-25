@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 public class ProfileActivity extends AppCompatActivity {
     private int initID;
-    private DBHandler handler;
+    private DBHandler handler = new DBHandler(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
