@@ -57,22 +57,6 @@ public class BuildGroupActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_build_group);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED){
-
-            }
-            else{
-                if(shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)){
-
-                    Toast.makeText(this, "Contact permission is needed to communicate with others through the app", Toast.LENGTH_SHORT).show();
-                }
-                requestPermissions(new String[]{READ_CONTACTS}, CONTACTS);
-
-            }
-        }
-//            if(hasContactPermission != PackageManager.PERMISSION_GRANTED)
-//                requestPermissions(new String[]{READ_CONTACTS}, CONTACTS);
-
         initID = getIntent().getIntExtra("initID", 0);
         final String name = getIntent().getStringExtra("name");
 
@@ -92,11 +76,26 @@ public class BuildGroupActivity extends AppCompatActivity implements
         scrollView = findViewById(R.id.scrollViewConstraintLayout);
 
         memberSpinner.setOnItemSelectedListener(this);
-        //loadSpinnerData();
 
         btnDeleteChecked.setEnabled(false);
         btnDeleteAll.setEnabled(false);
         btnDone.setEnabled(false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED){
+                loadSpinnerData();
+            }
+            else{
+                if(shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)){
+
+                    Toast.makeText(this, "Contact permission is needed to communicate with others through the app", Toast.LENGTH_SHORT).show();
+                }
+                requestPermissions(new String[]{READ_CONTACTS}, CONTACTS);
+
+            }
+        }
+//            if(hasContactPermission != PackageManager.PERMISSION_GRANTED)
+//                requestPermissions(new String[]{READ_CONTACTS}, CONTACTS);
 
 //        if(groupNameET.isFocused())
 //            groupNameET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -183,7 +182,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
                             String name = checkBox.getText().toString();
                             Member m = handler.findHandlerMember(name.substring(0, name.indexOf(" ")),
                                     name.substring(name.indexOf(" ") + 1));
-                            Log.i("name", m.getFirstName());
+                            //Log.i("name", m.getFirstName());
                             GroupMember gM = new GroupMember(group.getGroupID(), m.getMemberID());
                             handler.addHandler(gM);
                         }
@@ -215,9 +214,11 @@ public class BuildGroupActivity extends AppCompatActivity implements
 //        populateMembersTable();
         handler = new DBHandler(this);
         ArrayList<Member> ms = handler.getAllMembers();
+        Log.i("size mem", String.valueOf(ms.size()));
         memNames.clear();
         memNames.add("Select name");
-        for(Member m : contacts) {
+        for(Member m : ms) {
+            //Log.i("name", m.getFirstName());
             memNames.add(m.getFirstName() + " " + m.getLastName());
         }
         ArrayAdapter<String> memberAdapter = new ArrayAdapter<>(this,
@@ -242,10 +243,9 @@ public class BuildGroupActivity extends AppCompatActivity implements
 
 
     private void getContactList() {
-        if(contacts.size() > 0){
+        /*if(contacts.size() > 0){
             return;
-        }
-        int count = 1;
+        }*/
         Cursor c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null, null, null, null);
         handler = new DBHandler(this);
@@ -257,12 +257,23 @@ public class BuildGroupActivity extends AppCompatActivity implements
                 String last = fullName.substring(0, fullName.indexOf(","));
                 String first = fullName.substring(fullName.indexOf(",") + 2);
                 Member member = new Member(first, last, phone);
-                Log.i("name", last);
                 contacts.add(member);
-                handler.addHandler(member);
-                count++;
+                //handler.addHandler(member);
             }
             c.close();
+        }
+        ArrayList<Member> mem = handler.getAllMembers();
+        for(int i = 0; i < contacts.size(); i++){
+            for(int j = 0; j < mem.size(); j++){
+                if(contacts.get(i).getFirstName().equals(mem.get(j).getFirstName()) && contacts.get(i).getLastName().equals(mem.get(j).getLastName())){
+                    contacts.remove(i);
+                }
+            }
+        }
+        Log.i("size contacts", String.valueOf(contacts.size()));
+
+        for(int i = 0; i < contacts.size(); i++){
+            handler.addHandler(contacts.get(i));
         }
     }
 

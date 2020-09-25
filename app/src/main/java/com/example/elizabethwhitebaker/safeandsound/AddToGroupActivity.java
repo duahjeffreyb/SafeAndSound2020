@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -244,6 +245,7 @@ public class AddToGroupActivity extends AppCompatActivity {
         handler = new DBHandler(this);
         ArrayList<GroupMember> gms = handler.findHandlerGroupMembers(g.getGroupID());
         ArrayList<Member> ms = handler.getAllMembers();
+        Log.i("size", String.valueOf(ms.size()));
         Member[] mems = new Member[ms.size()];
         for(int i = 0; i < ms.size(); i++)
             mems[i] = ms.get(i);
@@ -253,12 +255,14 @@ public class AddToGroupActivity extends AppCompatActivity {
             Member m = handler.findHandlerMember(gm.getMemberID());
             for(int i = 0; i < mems.length; i++) {
                 if(mems[i] == null || mems[i].getMemberID() == m.getMemberID())
+                    //potentialMembers.add(m);
                     mems[i] = null;
             }
         }
-        for(Member mem : mems)
+        for(Member mem : mems) {
             if(mem != null)
-                memNames.add(mem.getFirstName() + " " + mem.getLastName());
+            memNames.add(mem.getFirstName() + " " + mem.getLastName());
+        }
         ArrayAdapter<String> memberAdapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_item, memNames);
         memberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
