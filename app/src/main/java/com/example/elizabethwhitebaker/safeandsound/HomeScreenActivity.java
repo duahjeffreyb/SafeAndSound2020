@@ -8,6 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 
 import java.util.ArrayList;
 
@@ -21,7 +28,6 @@ public class HomeScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_org);
-
         DBHandler handler = new DBHandler(this);
 
         initID = getIntent().getIntExtra("initID", 0);
@@ -38,7 +44,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         Button btnCreateEvent = findViewById(R.id.createEventButton);
         Button btnProfile = findViewById(R.id.profile_button);
         TextView welcome = findViewById(R.id.welcomeTextView);
-
         btnSendMsgs.setEnabled(false);
         btnCreateEvent.setEnabled(false);
         btnCheckEvent.setEnabled(false);
