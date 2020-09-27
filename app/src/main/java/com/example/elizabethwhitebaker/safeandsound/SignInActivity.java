@@ -1,6 +1,7 @@
 // Done
 package com.example.elizabethwhitebaker.safeandsound;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
@@ -8,19 +9,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 
 public class SignInActivity extends AppCompatActivity {
     DBHandler handler;
     Button btnSignIn;
     EditText Username, Password;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
-
         handler = new DBHandler(this);
-
         Username = findViewById(R.id.usernameEditText);
         Password = findViewById(R.id.passwordEditText);
 
@@ -63,4 +68,6 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

@@ -6,8 +6,18 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 
 import static android.Manifest.permission.READ_SMS;
 //import static android.Manifest.permission.RECEIVE_SMS;
@@ -21,14 +31,48 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_SMS = 1;
     private static final int REQUEST_READ_SMS = 123;
+    private static final int RC_SIGN_IN = 1;
+    private GoogleSignInClient mGoogleSignInClient;
+    private SignInButton googleSignIn;
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        updateUI(account);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         Button btnSignIn = findViewById(R.id.signin_button);
         Button btnSignUp = findViewById(R.id.signup_button);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        googleSignIn = findViewById(R.id.google_sign_in);
+        googleSignIn.setSize(SignInButton.SIZE_STANDARD);
+        googleSignIn.setEnabled(false);
+
+        googleSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch(view.getId()){
+                    case R.id.google_sign_in:
+                        signIn();
+                        break;
+                }
+            }
+        });
+
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +133,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == RC_SIGN_IN){
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask){
+        try{
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            updateUI(account);
+        } catch (ApiException e) {
+            e.printStackTrace();
+            Log.w("tag", "signInResult: failed code=" + e.getStatusCode());
+            updateUI(null);
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == REQUEST_SMS) {
@@ -145,5 +216,15 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
+    }
+
+    private void updateUI(GoogleSignInAccount account) {
+        if(account == null){
+            googleSignIn.setEnabled(true);
+        }else{
+            Intent i = new Intent(MainActivity.this, HomeScreenActivity.class);
+            i.putExtra("name", account.getGivenName());
+            startActivity(i);
+        }
     }
 }
