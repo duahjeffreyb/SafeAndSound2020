@@ -2,8 +2,12 @@ package com.example.elizabethwhitebaker.safeandsound;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +19,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
@@ -22,6 +28,8 @@ public class HomeScreenActivity extends AppCompatActivity {
 //    private static final String TAG = "HomeScreenActivity";
 
     private int initID;
+    private GoogleSignInClient mGoogleSignInClient;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -35,6 +43,11 @@ public class HomeScreenActivity extends AppCompatActivity {
         final String user = getIntent().getStringExtra("user");
         final String pass = getIntent().getStringExtra("pass");
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         Button btnBuildGroup = findViewById(R.id.buildGroupButton);
         Button btnAddToGroup = findViewById(R.id.addToGroupButton);
         Button btnRemoveFromGroup = findViewById(R.id.removeFromGroupButton);
@@ -43,6 +56,8 @@ public class HomeScreenActivity extends AppCompatActivity {
         Button btnCheckEvent = findViewById(R.id.checkEventButton);
         Button btnCreateEvent = findViewById(R.id.createEventButton);
         Button btnProfile = findViewById(R.id.profile_button);
+        Button btnDeleteGroup = findViewById(R.id.delete_a_group);
+
         TextView welcome = findViewById(R.id.welcomeTextView);
         btnSendMsgs.setEnabled(false);
         btnCreateEvent.setEnabled(false);
@@ -138,8 +153,21 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeScreenActivity.this, MainActivity.class));
+            public void onClick(final View v) {
+                new AlertDialog.Builder(HomeScreenActivity.this)
+                        .setTitle("Sign Out")
+                        .setMessage("Are you sure you want to sign out")
+                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                switch (v.getId()){
+                                    case R.id.signOutButton:
+                                        signOut();
+                                        break;
+                                }
+                            }
+                        })
+                        .setNegativeButton("no", null).show();
             }
         });
 
@@ -155,5 +183,26 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
 
+        btnDeleteGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeScreenActivity.this, DeleteGroupActivity.class);
+                i.putExtra("initID", initID);
+                i.putExtra("name", name);
+                i.putExtra("user", user);
+                i.putExtra("pass", pass);
+                startActivity(i);
+            }
+        });
+
+    }
+
+    private void signOut() {
+        mGoogleSignInClient.signOut().addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                startActivity(new Intent(HomeScreenActivity.this, MainActivity.class));
+            }
+        });
     }
 }
