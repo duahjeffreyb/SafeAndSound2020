@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".DeleteGroupActivity"></activity>
+        <activity android:name=".ProfileActivity" />
         <activity
             android:name=".MainActivity"
             android:label="Safe and Sound"

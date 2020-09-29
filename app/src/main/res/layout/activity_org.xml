@@ -49,7 +49,7 @@
             android:layout_height="24dp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
@@ -60,6 +60,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/bld_grp_text"
                 android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/delete_a_group"
+                android:layout_width="168dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/delete_group_button" />
 
         </LinearLayout>
 
