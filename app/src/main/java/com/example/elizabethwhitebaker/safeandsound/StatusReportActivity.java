@@ -1,6 +1,8 @@
 package com.example.elizabethwhitebaker.safeandsound;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,6 +10,8 @@ import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,6 +28,7 @@ public class StatusReportActivity extends AppCompatActivity {
     protected ArrayList<TextView> responses;
     private ArrayList<ImageView> stopLights;
     private ConstraintLayout scrollView;
+    private String name;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -32,7 +37,8 @@ public class StatusReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_status_report);
 
         initID = getIntent().getIntExtra("initID", 0);
-        final String name = getIntent().getStringExtra("name");
+        name = getIntent().getStringExtra("name");
+
 
         String eventName = getIntent().getStringExtra("event");
         String eventGroup = eventName + " Group";
@@ -108,8 +114,16 @@ public class StatusReportActivity extends AppCompatActivity {
                 }
                 count++;
             }
+
+            if(statuses.size() == 0){
+                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
+                intent.putExtra("initID", initID);
+                intent.putExtra("name", name);
+                startActivity(intent);
+            }
             createMemberNameTextView(m.getFirstName() + " " + m.getLastName());
         }
+
 
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,6 +300,7 @@ public class StatusReportActivity extends AppCompatActivity {
     }
 
     private void createMemberNameTextView(String memberName) {
+        Log.i("size", String.valueOf(statuses.size()));
         TextView name = new TextView(getApplicationContext());
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams
                 (ConstraintLayout.LayoutParams.WRAP_CONTENT,
