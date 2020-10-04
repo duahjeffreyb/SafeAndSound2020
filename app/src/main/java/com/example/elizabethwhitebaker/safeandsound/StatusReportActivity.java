@@ -71,6 +71,7 @@ public class StatusReportActivity extends AppCompatActivity {
         }
 
         HashMap<String, String> refinedData = comparePhones(data, numbersCompare);
+        Log.i("data size", String.valueOf(refinedData.size()));
 
         statusReport.setText("Status Report for " + eventName);
         groupName.setText("Responders from " + eventGroup + ":");
@@ -116,12 +117,21 @@ public class StatusReportActivity extends AppCompatActivity {
             }
 
             if(statuses.size() == 0){
-                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
-                intent.putExtra("initID", initID);
-                intent.putExtra("name", name);
-                startActivity(intent);
+                new AlertDialog.Builder(this)
+                        .setTitle("No Responses")
+                        .setMessage("You haven't received any responses yet.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(getApplicationContext(), HomeScreenActivity.class);
+                                intent.putExtra("initID", initID);
+                                intent.putExtra("name", name);
+                                startActivity(intent);
+                            }
+                        }).show();
+            }else {
+                createMemberNameTextView(m.getFirstName() + " " + m.getLastName());
             }
-            createMemberNameTextView(m.getFirstName() + " " + m.getLastName());
         }
 
 
