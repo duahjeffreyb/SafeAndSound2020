@@ -19,6 +19,7 @@ public class CheckEventActivity extends AppCompatActivity implements
     private Spinner chooseEvent;
     private Button btnStatusReport;
     private Intent intent;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class CheckEventActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_check_event);
 
         initID = getIntent().getIntExtra("initID", 0);
-        final String name = getIntent().getStringExtra("name");
+        name = getIntent().getStringExtra("name");
 
 
         intent = new Intent(CheckEventActivity.this, StatusReportActivity.class);
@@ -45,6 +46,7 @@ public class CheckEventActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 intent.putExtra("initID", initID);
+                intent.putExtra("name", name);
                 startActivity(intent);
             }
         });
