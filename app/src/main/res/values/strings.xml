@@ -81,7 +81,7 @@
     <string name="g">GOOD</string>
     <string name="b">BAD</string>
     <string name="u">UNK</string>
-    <string name="profile_button">Profile</string>
+    <string name="settings_button">Settings</string>
     <string name="delete_group_button">Delete Group</string>
     <string name="google_sign_in_text">Sign-in with Google</string>
 </resources>

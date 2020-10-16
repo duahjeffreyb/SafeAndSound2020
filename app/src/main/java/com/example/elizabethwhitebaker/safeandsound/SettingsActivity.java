@@ -6,16 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
     private int initID;
     private String name;
     private DBHandler handler = new DBHandler(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_settings);
 
         initID = getIntent().getIntExtra("initID", 0);
         name = getIntent().getStringExtra("name");
@@ -31,7 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, HomeScreenActivity.class);
+                Intent intent = new Intent(SettingsActivity.this, HomeScreenActivity.class);
                 intent.putExtra("initID", initID);
                 intent.putExtra("name", name);
                 startActivity(intent);
