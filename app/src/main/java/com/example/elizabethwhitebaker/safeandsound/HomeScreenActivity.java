@@ -1,7 +1,6 @@
 package com.example.elizabethwhitebaker.safeandsound;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,13 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -75,7 +71,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             handler.addHandler(new Member("Codie", "Nichols", "+19105201955"));
         }*/
 
-        welcome.setText(getString(R.string.welcome_org_text) + ", " + name);
+        welcome.setText(getString(R.string.welcome_org_text) + ", " + name + "!");
 
 
         handler.close();
@@ -174,7 +170,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(HomeScreenActivity.this, ProfileActivity.class);
+                Intent i = new Intent(HomeScreenActivity.this, SettingsActivity.class);
                 i.putExtra("initID", initID);
                 i.putExtra("name", name);
                 i.putExtra("user", user);
