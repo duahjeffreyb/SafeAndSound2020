@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
     private GoogleSignInClient mGoogleSignInClient;
     private SignInButton googleSignIn;
+    private DBHandler db;
+    private Initiator initiator;
 
 
     @Override
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
+        db = new DBHandler(getApplicationContext());
         Button btnSignIn = findViewById(R.id.signin_button);
         Button btnSignUp = findViewById(R.id.signup_button);
 
@@ -222,6 +224,10 @@ public class MainActivity extends AppCompatActivity {
         if(account == null){
             googleSignIn.setEnabled(true);
         }else{
+            initiator.setFirstName(account.getGivenName());
+            initiator.setLastName(account.getFamilyName());
+            initiator.setPicturePath(account.getPhotoUrl().getPath());
+            db.addHandler(initiator);
             Intent i = new Intent(MainActivity.this, HomeScreenActivity.class);
             i.putExtra("name", account.getGivenName());
             startActivity(i);

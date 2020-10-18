@@ -3,9 +3,15 @@ package com.example.elizabethwhitebaker.safeandsound;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.zip.InflaterInputStream;
 
 public class SettingsActivity extends AppCompatActivity {
     private int initID;
@@ -18,6 +24,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         initID = getIntent().getIntExtra("initID", 0);
         name = getIntent().getStringExtra("name");
+
+        ImageView image = findViewById(R.id.user_picture);
+
+        ArrayList<Initiator> initiators = handler.getAllInitiators();
+
 
         final String name = getIntent().getStringExtra("name");
         final String user = getIntent().getStringExtra("user");
