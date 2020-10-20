@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         db = new DBHandler(getApplicationContext());
+        initiator = new Initiator();
         Button btnSignIn = findViewById(R.id.signin_button);
         Button btnSignUp = findViewById(R.id.signup_button);
 
@@ -224,9 +225,6 @@ public class MainActivity extends AppCompatActivity {
         if(account == null){
             googleSignIn.setEnabled(true);
         }else{
-            initiator.setFirstName(account.getGivenName());
-            initiator.setLastName(account.getFamilyName());
-            initiator.setPicturePath(account.getPhotoUrl().getPath());
             db.addHandler(initiator);
             Intent i = new Intent(MainActivity.this, HomeScreenActivity.class);
             i.putExtra("name", account.getGivenName());
