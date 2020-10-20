@@ -2,6 +2,8 @@ package com.example.elizabethwhitebaker.safeandsound;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.appcompat.app.AppCompatActivity;
@@ -116,6 +118,12 @@ public class CreateEventActivity extends AppCompatActivity implements
             public void onClick(View v) {
                 ArrayList<Event> es = handler.getAllEvents();
                 boolean status = true;
+                if(eventDescET.getText().toString().isEmpty() || eventNameET.getText().toString().isEmpty()){
+                    AlertDialog a = new AlertDialog.Builder(btnCreate.getContext()).create();
+                    a.setTitle("Empty Field(s)");
+                    a.setMessage("Make sure the event name and description are complete");
+                    a.show();
+                }
                 for(Event e : es)
                     if(eventNameET.getText().toString().equals(e.getEventName()))
                         status = false;
