@@ -25,8 +25,6 @@ public class SettingsActivity extends AppCompatActivity {
         initID = getIntent().getIntExtra("initID", 0);
         name = getIntent().getStringExtra("name");
 
-        ImageView image = findViewById(R.id.user_picture);
-
         ArrayList<Initiator> initiators = handler.getAllInitiators();
 
 
