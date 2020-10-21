@@ -253,7 +253,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
             while(c.moveToNext()) {
                 handler = new DBHandler(this);
                 String fullName = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_ALTERNATIVE));
-                String phone = "+" + c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replaceAll("[\\(\\)\\s\\-]", "");
+                String phone = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replaceAll("[\\(\\)\\s\\-]", "");
                 String last = fullName.substring(0, fullName.indexOf(","));
                 String first = fullName.substring(fullName.indexOf(",") + 2);
                 Member member = new Member(first, last, phone);
@@ -263,8 +263,12 @@ public class BuildGroupActivity extends AppCompatActivity implements
             c.close();
         }
         ArrayList<Member> mem = handler.getAllMembers();
+        Log.i("contacts", String.valueOf(contacts.size()));
         for(int i = 0; i < contacts.size(); i++){
             for(int j = 0; j < mem.size(); j++){
+                if(contacts.size() == 0){
+                    break;
+                }
                 if(contacts.get(i).getFirstName().equals(mem.get(j).getFirstName()) && contacts.get(i).getLastName().equals(mem.get(j).getLastName())){
                     contacts.remove(i);
                 }
