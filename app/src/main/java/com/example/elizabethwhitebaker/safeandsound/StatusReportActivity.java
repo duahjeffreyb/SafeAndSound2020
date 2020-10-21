@@ -71,6 +71,7 @@ public class StatusReportActivity extends AppCompatActivity {
         }
 
         HashMap<String, String> refinedData = comparePhones(data, numbersCompare);
+
         Log.i("data size", String.valueOf(refinedData.size()));
 
         statusReport.setText("Status Report for " + eventName);
