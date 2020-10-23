@@ -249,8 +249,9 @@ public class BuildGroupActivity extends AppCompatActivity implements
         Cursor c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null, null, null, null);
         handler = new DBHandler(this);
+        ArrayList<Member> mem = handler.getAllMembers();
         if (c != null) {
-            while(c.moveToNext()) {
+            while (c.moveToNext()) {
                 handler = new DBHandler(this);
                 String fullName = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_ALTERNATIVE));
                 String phone = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replaceAll("[\\(\\)\\s\\-]", "");
@@ -258,19 +259,40 @@ public class BuildGroupActivity extends AppCompatActivity implements
                 String first = fullName.substring(fullName.indexOf(",") + 2);
                 Member member = new Member(first, last, phone);
                 contacts.add(member);
-                //handler.addHandler(member);
             }
-            c.close();
+                c.close();
+            Log.i("contacts", String.valueOf(contacts.size()));
         }
-        ArrayList<Member> mem = handler.getAllMembers();
-        Log.i("contacts", String.valueOf(contacts.size()));
-        for(int i = 0; i < contacts.size(); i++){
-            for(int j = 0; j < mem.size(); j++){
-                if(contacts.size() == 0){
-                    break;
-                }
-                if(contacts.get(i).getFirstName().equals(mem.get(j).getFirstName()) && contacts.get(i).getLastName().equals(mem.get(j).getLastName())){
-                    contacts.remove(i);
+
+        /*if(contacts.size() == 0){
+            for(Member member: mem){
+                handler.deleteHandler(member.getMemberID(), "Members");
+            }
+            return;
+        }*/
+
+        for(Member member:mem){
+            if(!contacts.contains(member)){
+                handler.deleteHandler(member.getMemberID(), "Members");
+            }
+        }
+
+        for(Member contact: contacts){
+            if(!mem.contains(contact)){
+                handler.addHandler(contact);
+            }
+        }
+    }
+
+        /*if(contacts.size() > 0) {
+            for (int i = 0; i < contacts.size(); i++) {
+                for (int j = 0; j < mem.size(); j++) {
+                    if (contacts.size() == 0) {
+                        break;
+                    }
+                    if (contacts.get(i).getFirstName().equals(mem.get(j).getFirstName()) && contacts.get(i).getLastName().equals(mem.get(j).getLastName())) {
+                        contacts.remove(i);
+                    }
                 }
             }
         }
@@ -279,7 +301,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
         for(int i = 0; i < contacts.size(); i++){
             handler.addHandler(contacts.get(i));
         }
-    }
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
