@@ -92,13 +92,13 @@ public class StatusReportActivity extends AppCompatActivity {
                     if (msg.toLowerCase().startsWith("yes")) {
                         m.setReplyStatus("GOOD");
                         m.setResponse(msg);
-                        createResponseTextView(m.getResponse().substring(4));
+                        createResponseTextView(m.getResponse().substring(3));
                         createReplyStatusTextView("GOOD");
                         createStopLightImageView("Green");
                     } else if (msg.toLowerCase().startsWith("no")) {
                         m.setReplyStatus("BAD");
                         m.setResponse(msg);
-                        createResponseTextView(m.getResponse().substring(3));
+                        createResponseTextView(m.getResponse().substring(2));
                         createReplyStatusTextView("BAD");
                         createStopLightImageView("Red");
                     } else {
