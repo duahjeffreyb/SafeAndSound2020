@@ -184,6 +184,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
                                     name.substring(name.indexOf(" ") + 1));
                             //Log.i("name", m.getFirstName());
                             GroupMember gM = new GroupMember(group.getGroupID(), m.getMemberID());
+                            Log.i("member", handler.findHandlerMember(gM.getMemberID()).getFirstName());
                             handler.addHandler(gM);
                         }
                         GroupLeader gL = new GroupLeader(initID, g.getGroupID());
@@ -250,38 +251,74 @@ public class BuildGroupActivity extends AppCompatActivity implements
                 null, null, null, null);
         handler = new DBHandler(this);
         ArrayList<Member> mem = handler.getAllMembers();
+        Log.i("1memSize", String.valueOf(mem.size()));
+        //contacts = mem;
         if (c != null) {
             while (c.moveToNext()) {
+                Log.i("count", String.valueOf(c.getCount()));
                 handler = new DBHandler(this);
                 String fullName = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_ALTERNATIVE));
+                //Log.i("name", fullName);
                 String phone = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replaceAll("[\\(\\)\\s\\-]", "");
                 String last = fullName.substring(0, fullName.indexOf(","));
                 String first = fullName.substring(fullName.indexOf(",") + 2);
                 Member member = new Member(first, last, phone);
-                contacts.add(member);
+                /*if(contacts.size() == 0){
+                    Log.i("contacts", String.valueOf(contacts.size()));
+                    contacts.add(member);
+                }*/
+                if(contacts.size() != 0 && !contacts.contains(member)){
+                    Log.i("newname", member.getFirstName());
+                    contacts.add(member);
+                }
+                if(contacts.size() == 0){
+                    contacts.add(member);
+                }
             }
                 c.close();
-            Log.i("contacts", String.valueOf(contacts.size()));
+                Log.i("contacts length", String.valueOf(contacts.size()));
         }
-
-        /*if(contacts.size() == 0){
-            for(Member member: mem){
-                handler.deleteHandler(member.getMemberID(), "Members");
+        if(mem.size() == 0){
+            Log.i("for loop", "in this for loop");
+            for(Member contact: contacts){
+                handler.addHandler(contact);
             }
             return;
-        }*/
+        }
+        /*for(Member contact: contacts){
+            for(Member member: mem){
+                if(contact.getPhoneNumber() == member.getPhoneNumber()){
 
-        for(Member member:mem){
-            if(!contacts.contains(member)){
-                handler.deleteHandler(member.getMemberID(), "Members");
+                }
+            }
+        }*/
+        //I think you figured it out, just wipe data and test again to make sure
+        for(int i = 0; i < contacts.size(); i++){
+            for(int j = 0; j < mem.size(); j++){
+                if(mem.get(j).getPhoneNumber().equals(contacts.get(i).getPhoneNumber())){
+                    break;
+                }
+                if(j == mem.size() - 1 && mem.get(j).getPhoneNumber() != contacts.get(i).getPhoneNumber()){
+                    handler.addHandler(contacts.get(i));
+                    break;
+                }
             }
         }
+        Log.i("memSize", String.valueOf(mem.size()));
 
+
+        /*for(Member member:mem){
+            if(!contacts.contains(member)){
+                handler.deleteHandler(member.getMemberID(), "Members");
+                Log.i("name", member.getFirstName());
+            }
+        }
+        Log.i("new size", String.valueOf(mem.size()));
         for(Member contact: contacts){
             if(!mem.contains(contact)){
                 handler.addHandler(contact);
             }
-        }
+        }*/
     }
 
         /*if(contacts.size() > 0) {

@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
         if(account == null){
             googleSignIn.setEnabled(true);
         }else{
-            db.addHandler(initiator);
+            Log.i("accountName", account.getGivenName());
             Intent i = new Intent(MainActivity.this, HomeScreenActivity.class);
             i.putExtra("name", account.getGivenName());
             startActivity(i);
