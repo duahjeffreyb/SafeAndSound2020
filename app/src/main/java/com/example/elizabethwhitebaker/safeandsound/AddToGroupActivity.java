@@ -29,6 +29,8 @@ public class AddToGroupActivity extends AppCompatActivity {
     private ArrayList<String> groupNames;
     private ArrayList<String> memNames;
     private String groupName;
+    private ArrayList<GroupMember> gms;
+    private ArrayList<Member> ms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class AddToGroupActivity extends AppCompatActivity {
         checkBoxes = new ArrayList<>();
         groupNames = new ArrayList<>();
         memNames = new ArrayList<>();
+        ms = new ArrayList<>();
+        gms = new ArrayList<>();
 
         btnDeleteChecked = findViewById(R.id.deleteCheckedButton);
         btnDeleteAll = findViewById(R.id.deleteAllButton);
@@ -243,20 +247,27 @@ public class AddToGroupActivity extends AppCompatActivity {
 
     private void loadMemberSpinnerData(Group g) {
         handler = new DBHandler(this);
-        ArrayList<GroupMember> gms = handler.findHandlerGroupMembers(g.getGroupID());
-        ArrayList<Member> ms = handler.getAllMembers();
-        Log.i("size", String.valueOf(ms.size()));
+        gms = handler.findHandlerGroupMembers(g.getGroupID());
+        ms = handler.getAllMembers();
+        Log.i("gms size", String.valueOf(gms.size()));
+        Log.i("ms size", String.valueOf(ms.size()));
         Member[] mems = new Member[ms.size()];
         for(int i = 0; i < ms.size(); i++)
             mems[i] = ms.get(i);
         memNames.clear();
         memNames.add("Select member");
         for(GroupMember gm : gms) {
+            Log.i("memberID", String.valueOf(gm.getMemberID()));
             Member m = handler.findHandlerMember(gm.getMemberID());
+            //Log.i("test" , handler.findHandlerMember(gm.getMemberID()).getPhoneNumber());
+            //Log.i("size", ms.get(0).getFirstName());
             for(int i = 0; i < mems.length; i++) {
-                if(mems[i] == null || mems[i].getMemberID() == m.getMemberID())
-                    //potentialMembers.add(m);
-                    mems[i] = null;
+                //Log.i("mems memberID", String.valueOf(mems[i].getMemberID()));
+                if(m != null) {
+                    if (mems[i] == null || mems[i].getMemberID() == m.getMemberID())
+                        //potentialMembers.add(m);
+                        mems[i] = null;
+                }
             }
         }
         for(Member mem : mems) {

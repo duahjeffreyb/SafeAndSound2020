@@ -67,7 +67,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 
 
         if(members.size() == 1) {
-            handler.addHandler(new Member("Elizabeth", "Baker", "+13366181185"));
+            //handler.addHandler(new Member("Elizabeth", "Baker", "+13366181185"));
             //handler.addHandler(new Member("Tyler", "Hall", "+19102741577"));
             //handler.addHandler(new Member("Codie", "Nichols", "+19105201955"));
         }

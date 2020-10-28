@@ -7,6 +7,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -151,6 +153,8 @@ public class CreateEventActivity extends AppCompatActivity implements
                             if(!ids.contains(memID)) {
                                 ids.add(memID);
                                 GroupMember groupM = new GroupMember(group.getGroupID(), memID);
+                                Member mem = handler.findHandlerMember(gM.getMemberID());
+                                Log.i("test", mem.getFirstName());
                                 handler.addHandler(groupM);
                             }
                         }
