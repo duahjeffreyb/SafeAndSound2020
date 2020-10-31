@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -49,6 +50,8 @@ public class BuildGroupActivity extends AppCompatActivity implements
     private ArrayList<String> memNames;
     private int initID;
     private ArrayList<Member> contacts = new ArrayList<>();
+    private ArrayList<Member> deleted = new ArrayList<>();
+    private ArrayList<Group> groups = new ArrayList<>();
     //private static final int REQUEST_READ_CONTACTS = 0;
 
 
@@ -270,6 +273,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
                 if(contacts.size() != 0 && !contacts.contains(member)){
                     Log.i("newname", member.getFirstName());
                     contacts.add(member);
+
                 }
                 if(contacts.size() == 0){
                     contacts.add(member);
@@ -292,7 +296,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
                 }
             }
         }*/
-        //I think you figured it out, just wipe data and test again to make sure
+
         for(int i = 0; i < contacts.size(); i++){
             for(int j = 0; j < mem.size(); j++){
                 if(mem.get(j).getPhoneNumber().equals(contacts.get(i).getPhoneNumber())){
@@ -304,6 +308,37 @@ public class BuildGroupActivity extends AppCompatActivity implements
                 }
             }
         }
+
+        for(int i = 0; i < mem.size(); i++){
+            for(int j = 0; j < contacts.size(); j++){
+                if(mem.get(i).getPhoneNumber().equals(contacts.get(j).getPhoneNumber())){
+                    break;
+                }
+                if(j == contacts.size() - 1 && !mem.get(i).getPhoneNumber().equals(contacts.get(j).getPhoneNumber())){
+                    handler.deleteHandler(mem.get(i).getMemberID(), "Members");
+                    break;
+                }
+            }
+        }
+
+
+        /*deleted = mem;
+        deleted.removeAll(contacts);
+        boolean test = deleted.containsAll(contacts);
+        groups = handler.getAllGroups();
+        for(Member member: deleted){
+            for(Group group: groups){
+                int iD = group.getGroupID();
+                if(handler.findHandlerGroupMember(iD, member.getMemberID()) != null){
+                    GroupMember groupMember = handler.findHandlerGroupMember(iD, member.getMemberID());
+                    handler.deleteHandler(groupMember.getMemberID(), "GroupMembers");
+                }
+            }
+        }
+
+        for (Member member: deleted){
+            handler.deleteHandler(member.getMemberID(), "Members");
+        }*/
         Log.i("memSize", String.valueOf(mem.size()));
 
 
