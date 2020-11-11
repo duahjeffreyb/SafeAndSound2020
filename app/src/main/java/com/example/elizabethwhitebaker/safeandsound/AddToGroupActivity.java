@@ -236,8 +236,10 @@ public class AddToGroupActivity extends AppCompatActivity {
         ArrayList<Group> groups = handler.getAllGroups();
         groupNames.clear();
         groupNames.add("Select group");
-        for (Group g : groups)
+        for (Group g : groups) {
+            Log.i("Group.size", String.valueOf(groups.size()));
             groupNames.add(g.getGroupName());
+        }
         ArrayAdapter<String> groupAdapter = new ArrayAdapter<>(getApplicationContext(),
                 android.R.layout.simple_spinner_item, groupNames);
         groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
