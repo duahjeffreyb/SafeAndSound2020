@@ -64,6 +64,8 @@ public class StatusReportActivity extends AppCompatActivity {
         ArrayList<Member> ms = new ArrayList<>();
         ArrayList<String> numbersCompare = new ArrayList<>();
 
+        //ms = handler.getAllMembers();
+
         for(int i = 0; i < gms.size(); i++) {
             Member m = handler.findHandlerMember(gms.get(i).getMemberID());
             numbersCompare.add(m.getPhoneNumber());
