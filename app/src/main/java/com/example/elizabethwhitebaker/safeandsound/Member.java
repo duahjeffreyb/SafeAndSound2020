@@ -1,5 +1,11 @@
 package com.example.elizabethwhitebaker.safeandsound;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.util.Objects;
+
 class Member {
     private int memberID;
     private String firstName;
@@ -50,5 +56,19 @@ class Member {
                 ", replyStatus='" + replyStatus + '\'' +
                 ", response='" + response + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Member)) return false;
+        Member member = (Member) o;
+        return getPhoneNumber().equals(member.getPhoneNumber());
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPhoneNumber());
     }
 }
