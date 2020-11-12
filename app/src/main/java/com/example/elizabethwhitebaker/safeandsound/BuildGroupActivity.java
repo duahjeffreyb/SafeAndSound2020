@@ -50,8 +50,9 @@ public class BuildGroupActivity extends AppCompatActivity implements
     private ArrayList<String> memNames;
     private int initID;
     private ArrayList<Member> contacts = new ArrayList<>();
-    private ArrayList<Member> deleted = new ArrayList<>();
+    private ArrayList<Member> currentMembers = new ArrayList<>();
     private ArrayList<Group> groups = new ArrayList<>();
+    private ArrayList<GroupMember> gmems = new ArrayList<>();
     //private static final int REQUEST_READ_CONTACTS = 0;
 
 
@@ -62,6 +63,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
 
         initID = getIntent().getIntExtra("initID", 0);
         final String name = getIntent().getStringExtra("name");
+
 
 
         checkBoxes = new ArrayList<>();
@@ -85,11 +87,10 @@ public class BuildGroupActivity extends AppCompatActivity implements
         btnDone.setEnabled(false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
                 loadSpinnerData();
-            }
-            else{
-                if(shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)){
+            } else {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
 
                     Toast.makeText(this, "Contact permission is needed to communicate with others through the app", Toast.LENGTH_SHORT).show();
                 }
@@ -112,27 +113,26 @@ public class BuildGroupActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 CheckBox[] checks = new CheckBox[checkBoxes.size()];
-                for(int i = 0; i < checkBoxes.size(); i++)
+                for (int i = 0; i < checkBoxes.size(); i++)
                     checks[i] = checkBoxes.get(i);
-                for(CheckBox checkBox : checks) {
-                    if(checkBox.isChecked()) {
+                for (CheckBox checkBox : checks) {
+                    if (checkBox.isChecked()) {
                         ConstraintSet set = new ConstraintSet();
                         reloadSpinnerData(true, checkBox.getText().toString());
                         set.clone(scrollView);
-                        if(checkBoxes.size() == 1) {
+                        if (checkBoxes.size() == 1) {
                             set.connect(R.id.deleteCheckedButton, ConstraintSet.TOP,
                                     R.id.chosenMembersTextView, ConstraintSet.BOTTOM, 16);
                             btnDeleteChecked.setEnabled(false);
                             btnDeleteAll.setEnabled(false);
                             btnDone.setEnabled(false);
-                        }
-                        else if(checkBoxes.indexOf(checkBox) != checkBoxes.size() - 1 && checkBoxes.indexOf(checkBox) != 0)
+                        } else if (checkBoxes.indexOf(checkBox) != checkBoxes.size() - 1 && checkBoxes.indexOf(checkBox) != 0)
                             set.connect(checkBoxes.get(checkBoxes.indexOf(checkBox) + 1).getId(), ConstraintSet.TOP,
                                     checkBoxes.get(checkBoxes.indexOf(checkBox) - 1).getId(), ConstraintSet.BOTTOM, 16);
-                        else if(checkBoxes.indexOf(checkBox) == 0)
+                        else if (checkBoxes.indexOf(checkBox) == 0)
                             set.connect(checkBoxes.get(1).getId(), ConstraintSet.TOP,
                                     R.id.chosenMembersTextView, ConstraintSet.BOTTOM, 16);
-                        else if(checkBoxes.indexOf(checkBox) == checkBoxes.size() - 1)
+                        else if (checkBoxes.indexOf(checkBox) == checkBoxes.size() - 1)
                             set.connect(R.id.deleteCheckedButton, ConstraintSet.TOP,
                                     checkBoxes.get(checkBoxes.indexOf(checkBox) - 1).getId(), ConstraintSet.BOTTOM, 16);
                         scrollView.removeView(checkBox);
@@ -149,7 +149,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
                 btnDeleteChecked.setEnabled(false);
                 btnDeleteAll.setEnabled(false);
                 btnDone.setEnabled(false);
-                for(CheckBox checkBox : checkBoxes)
+                for (CheckBox checkBox : checkBoxes)
                     scrollView.removeView(checkBox);
                 checkBoxes.clear();
                 ConstraintSet set = new ConstraintSet();
@@ -164,20 +164,20 @@ public class BuildGroupActivity extends AppCompatActivity implements
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(groupNameET.getText().toString().isEmpty()){
+                if (groupNameET.getText().toString().isEmpty()) {
                     AlertDialog a = new AlertDialog.Builder(btnDone.getContext()).create();
                     a.setTitle("Empty Field");
                     a.setMessage("Please put a group name");
                     a.show();
                 }
-                if(!groupNameET.getText().toString().isEmpty() ) {
+                if (!groupNameET.getText().toString().isEmpty()) {
                     handler = new DBHandler(getApplicationContext());
                     boolean same = false;
                     ArrayList<Group> gs = handler.getAllGroups();
-                    for(Group g : gs)
-                        if(groupNameET.getText().toString().equals(g.getGroupName()))
+                    for (Group g : gs)
+                        if (groupNameET.getText().toString().equals(g.getGroupName()))
                             same = true;
-                    if(!same) {
+                    if (!same) {
                         Group g = new Group(groupNameET.getText().toString());
                         handler.addHandler(g);
                         Group group = handler.findHandlerGroup(g.getGroupName());
@@ -214,14 +214,14 @@ public class BuildGroupActivity extends AppCompatActivity implements
     }
 
     private void loadSpinnerData() {
-        getContactList();
+        //getContactList();
 //        populateMembersTable();
         handler = new DBHandler(this);
         ArrayList<Member> ms = handler.getAllMembers();
         Log.i("size mem", String.valueOf(ms.size()));
         memNames.clear();
         memNames.add("Select name");
-        for(Member m : ms) {
+        for (Member m : ms) {
             //Log.i("name", m.getFirstName());
             memNames.add(m.getFirstName() + " " + m.getLastName());
         }
@@ -233,7 +233,7 @@ public class BuildGroupActivity extends AppCompatActivity implements
     }
 
     private void reloadSpinnerData(boolean add, String name) {
-        if(add)
+        if (add)
             memNames.add(name);
         else
             memNames.remove(name);
@@ -244,151 +244,6 @@ public class BuildGroupActivity extends AppCompatActivity implements
 
     }
 
-
-
-    private void getContactList() {
-        /*if(contacts.size() > 0){
-            return;
-        }*/
-        Cursor c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                null, null, null, null);
-        handler = new DBHandler(this);
-        ArrayList<Member> mem = handler.getAllMembers();
-        Log.i("1memSize", String.valueOf(mem.size()));
-        //contacts = mem;
-        if (c != null) {
-            while (c.moveToNext()) {
-                Log.i("count", String.valueOf(c.getCount()));
-                handler = new DBHandler(this);
-                String fullName = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_ALTERNATIVE));
-                //Log.i("name", fullName);
-                String phone = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replaceAll("[\\(\\)\\s\\-]", "");
-                String last = fullName.substring(0, fullName.indexOf(","));
-                String first = fullName.substring(fullName.indexOf(",") + 2);
-                Member member = new Member(first, last, phone);
-                /*if(contacts.size() == 0){
-                    Log.i("contacts", String.valueOf(contacts.size()));
-                    contacts.add(member);
-                }*/
-                if(contacts.size() != 0 && !contacts.contains(member)){
-                    Log.i("newname", member.getFirstName());
-                    contacts.add(member);
-
-                }
-                if(contacts.size() == 0){
-                    contacts.add(member);
-                }
-            }
-                c.close();
-                Log.i("contacts length", String.valueOf(contacts.size()));
-        }
-        if(mem.size() == 0){
-            Log.i("for loop", "in this for loop");
-            for(Member contact: contacts){
-                handler.addHandler(contact);
-            }
-            return;
-        }
-        /*for(Member contact: contacts){
-            for(Member member: mem){
-                if(contact.getPhoneNumber() == member.getPhoneNumber()){
-
-                }
-            }
-        }*/
-
-        for(int i = 0; i < contacts.size(); i++){
-            for(int j = 0; j < mem.size(); j++){
-                if(mem.get(j).getPhoneNumber().equals(contacts.get(i).getPhoneNumber())){
-                    break;
-                }
-                if(j == mem.size() - 1 && mem.get(j).getPhoneNumber() != contacts.get(i).getPhoneNumber()){
-                    handler.addHandler(contacts.get(i));
-                    break;
-                }
-            }
-        }
-
-        for(int i = 0; i < mem.size(); i++){
-            for(int j = 0; j < contacts.size(); j++){
-                if(mem.get(i).getPhoneNumber().equals(contacts.get(j).getPhoneNumber())){
-                    break;
-                }
-                if(j == contacts.size() - 1 && !mem.get(i).getPhoneNumber().equals(contacts.get(j).getPhoneNumber())){
-                    handler.deleteHandler(mem.get(i).getMemberID(), "Members");
-                    break;
-                }
-            }
-        }
-
-
-        /*deleted = mem;
-        deleted.removeAll(contacts);
-        boolean test = deleted.containsAll(contacts);
-        groups = handler.getAllGroups();
-        for(Member member: deleted){
-            for(Group group: groups){
-                int iD = group.getGroupID();
-                if(handler.findHandlerGroupMember(iD, member.getMemberID()) != null){
-                    GroupMember groupMember = handler.findHandlerGroupMember(iD, member.getMemberID());
-                    handler.deleteHandler(groupMember.getMemberID(), "GroupMembers");
-                }
-            }
-        }
-
-        for (Member member: deleted){
-            handler.deleteHandler(member.getMemberID(), "Members");
-        }*/
-        Log.i("memSize", String.valueOf(mem.size()));
-
-
-        /*for(Member member:mem){
-            if(!contacts.contains(member)){
-                handler.deleteHandler(member.getMemberID(), "Members");
-                Log.i("name", member.getFirstName());
-            }
-        }
-        Log.i("new size", String.valueOf(mem.size()));
-        for(Member contact: contacts){
-            if(!mem.contains(contact)){
-                handler.addHandler(contact);
-            }
-        }*/
-    }
-
-        /*if(contacts.size() > 0) {
-            for (int i = 0; i < contacts.size(); i++) {
-                for (int j = 0; j < mem.size(); j++) {
-                    if (contacts.size() == 0) {
-                        break;
-                    }
-                    if (contacts.get(i).getFirstName().equals(mem.get(j).getFirstName()) && contacts.get(i).getLastName().equals(mem.get(j).getLastName())) {
-                        contacts.remove(i);
-                    }
-                }
-            }
-        }
-        Log.i("size contacts", String.valueOf(contacts.size()));
-
-        for(int i = 0; i < contacts.size(); i++){
-            handler.addHandler(contacts.get(i));
-        }
-    }*/
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == CONTACTS){
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                loadSpinnerData();
-            }
-            else{
-                Toast.makeText(this, "Permission not granted", Toast.LENGTH_SHORT);
-            }
-        }
-        else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
 
     //    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 //        if (requestCode == CONTACTS) {
@@ -410,8 +265,8 @@ public class BuildGroupActivity extends AppCompatActivity implements
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if(i != 0) {
-            if(checkBoxes.size() == 0) {
+        if (i != 0) {
+            if (checkBoxes.size() == 0) {
                 btnDeleteAll.setEnabled(true);
                 btnDeleteChecked.setEnabled(true);
                 btnDone.setEnabled(true);
@@ -447,4 +302,6 @@ public class BuildGroupActivity extends AppCompatActivity implements
     public void onNothingSelected(AdapterView<?> adapterView) {
         // TODO Auto-generated method stub
     }
+
+
 }
