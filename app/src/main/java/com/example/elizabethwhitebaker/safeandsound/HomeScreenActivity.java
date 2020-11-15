@@ -270,7 +270,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             c.close();
             Log.i("contacts length", String.valueOf(contacts.size()));
         }
-        if (mem.size() == 0) {
+        if (mem.size() == 0 && contacts.size() != 0) {
             for (Member contact : contacts) {
                 handler.addHandler(contact);
             }
@@ -289,22 +289,25 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         }
 
-        //checkDeleted(mem);
+        checkDeleted(mem);
 
         mem.retainAll(contacts);
         Log.i("groupsize", String.valueOf(groups.size()));
         gmems = handler.getAllGroupMembers();
+        for(GroupMember gm: gmems){
+            Member member = handler.findHandlerMember(gm.getMemberID());
+            if(member == null){
+                handler.deleteHandler(gm.getGroupMemberID(), "GroupMembers");
+            }
+        }
 
         for (Group group : groups) {
             ArrayList<GroupMember> groupMembers = handler.findHandlerGroupMembers(group.getGroupID());
             Log.i("GMSize", String.valueOf(groupMembers.size()));
-            if (!mem.containsAll(currentMembers)) {
-                currentMembers.retainAll(mem);
-                if(currentMembers.size() == 0) {
+                if(groupMembers.size() == 0) {
                     Log.i("messsage", "deleting groups");
                     handler.deleteHandler(group.getGroupID(), "Groups");
                 }
-            }
         }
         Log.i("memSize", String.valueOf(mem.size()));
 
@@ -314,6 +317,11 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     private void checkDeleted(ArrayList<Member> mem) {
+        if(contacts.size() == 0){
+            for(Member member: mem){
+                handler.deleteHandler(member.getMemberID(), "Members");
+            }
+        }
         for (int i = 0; i < mem.size(); i++) {
             for (int j = 0; j < contacts.size(); j++) {
                 if (mem.get(i).getPhoneNumber().equals(contacts.get(j).getPhoneNumber())) {
