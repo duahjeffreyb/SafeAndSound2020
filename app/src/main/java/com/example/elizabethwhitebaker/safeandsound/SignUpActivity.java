@@ -51,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
         ConfirmPassword = findViewById(R.id.confirmPasswordEditText);
 
         //TextView
-        TextView or = findViewById(R.id.orTextView);
+//        TextView or = findViewById(R.id.orTextView);
 
         //ImageView
         initImageView = findViewById(R.id.initImageView);
@@ -89,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
         } else {
             btnTakePhoto.setEnabled(false);
             btnTakePhoto.setVisibility(View.GONE);
-            or.setVisibility(View.GONE);
+//            or.setVisibility(View.GONE);
             ConstraintSet set = new ConstraintSet();
             ConstraintLayout layout = findViewById(R.id.scrollViewConstraintLayout);
             set.clone(layout);

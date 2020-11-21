@@ -14,7 +14,6 @@
     <string name="sign_in">Sign In</string>
     <string name="take_a_photo">Take A Photo</string>
     <string name="or">or</string>
-    <string name="status_report_for_event_name">Status Report for Event Name</string>
     <string name="responders_from_group_name_1">Responders from Group Name 1:</string>
     <string name="group_member_1">Group Member 1</string>
     <string name="y_n">Y/N</string>
@@ -30,7 +29,6 @@
     <string name="choose_the_event_name_you_want_to_check">Choose the event name you want to check:</string>
     <string name="check_employee_status_report">Check Employee Status Report</string>
     <string name="create_an_event">Create An Event</string>
-    <string name="name_this_new_event_below">Name this new event below:</string>
     <string name="event_name">Event Name</string>
     <string name="pick_the_groups_that_will_get_the_messages_you_send_during_this_event">Pick the groups that will get the messages you send during this event:</string>
     <string name="chosen_group">Chosen Group(s):</string>
@@ -39,7 +37,6 @@
     <string name="delete_checked_groups">Delete Checked Groups</string>
     <string name="delete_all">Delete All</string>
     <string name="idk">Please pick at least one group to send a message to.</string>
-    <string name="pick_the_groups_that_will_be_affected_by_this_event">Pick the groups that will be affected by this event:</string>
     <string name="event_description">Event Description</string>
     <string name="sign_up_text">If you are new to Safe and Sound, use the Sign Up button to create your account.</string>
     <string name="sign_in_text">If you are a returning user, use the Sign In button to access your groups and manage incidents.</string>
@@ -85,4 +82,14 @@
     <string name="delete_group_button">Delete Group</string>
     <string name="google_sign_in_text">Sign-in with Google</string>
     <string name="profile_pic_description">user profile picture</string>
+    <string name="messages">Messages</string>
+    <string name="your_groups">Your Groups</string>
+    <string name="groups">Groups</string>
+    <string name="buttonBack"><![CDATA[<]]></string>
+    <string name="create_group">Create Group</string>
+    <string name="plus">+</string>
+    <string name="what_would_you_like_to_do">What would you like to do?</string>
+    <string name="events">Events</string>
+    <string name="event_status_report">Event Status Report</string>
+    <string name="affected_groups">Affected Groups</string>
 </resources>

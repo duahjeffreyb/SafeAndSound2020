@@ -21,15 +21,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/welcomeTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/welcome_org_text"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="24sp" />
+        <!--        <TextView-->
+        <!--            android:id="@+id/welcomeTextView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:gravity="center"-->
+        <!--            android:text="@string/welcome_org_text"-->
+        <!--            android:textAlignment="center"-->
+        <!--            android:textColor="@color/colorPrimaryDark"-->
+        <!--            android:textSize="24sp" />-->
 
         <Space
             android:layout_width="match_parent"
@@ -63,7 +63,7 @@
 
             <Button
                 android:id="@+id/delete_a_group"
-                android:layout_width="168dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/delete_group_button" />

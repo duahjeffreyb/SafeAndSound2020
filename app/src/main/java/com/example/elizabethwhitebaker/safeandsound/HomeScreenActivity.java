@@ -85,7 +85,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         Button btnProfile = findViewById(R.id.profile_button);
         Button btnDeleteGroup = findViewById(R.id.delete_a_group);
 
-        TextView welcome = findViewById(R.id.welcomeTextView);
+//        TextView welcome = findViewById(R.id.welcomeTextView);
         btnSendMsgs.setEnabled(false);
         btnCreateEvent.setEnabled(false);
         btnCheckEvent.setEnabled(false);
@@ -103,7 +103,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             //handler.addHandler(new Member("Codie", "Nichols", "+19105201955"));
         }
 
-        welcome.setText(getString(R.string.welcome_org_text) + ", " + name + "!");
+//        welcome.setText(getString(R.string.welcome_org_text) + ", " + name + "!");
 
 
         handler.close();

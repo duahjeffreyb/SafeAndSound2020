@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_signup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.elizabethwhitebaker.safeandsound.SignUpActivity"
-    android:id="@+id/activity_signup">
+    tools:context="com.example.elizabethwhitebaker.safeandsound.SignUpActivity">
+
+    <View
+        android:id="@+id/signUpView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="#75316A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/signUpTextView"
@@ -16,34 +24,87 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:text="@string/sign_up"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
-        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <Button
+        android:id="@+id/photoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/upload_a_photo"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/signUpView"
+        app:layout_constraintEnd_toStartOf="@+id/guideline12"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/orTextView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="@string/or"-->
+    <!--        android:textAppearance="@style/TextAppearance.AppCompat.Headline"-->
+    <!--        android:textColor="#FFFFFF"-->
+    <!--        tools:layout_editor_absoluteX="16dp"-->
+    <!--        tools:layout_editor_absoluteY="35dp" />-->
+
+    <Button
+        android:id="@+id/takePhotoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/take_a_photo"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/photoButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline12" />
+
+    <ImageView
+        android:id="@+id/initImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/profile_image"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/photoButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpTextView"
+        tools:srcCompat="@tools:sample/backgrounds/scenic[11]" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
     <ScrollView
         android:id="@+id/signUpScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpTextView">
+        app:layout_constraintTop_toBottomOf="@+id/signUpView"
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/scrollViewConstraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrollViewConstraintLayout">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/firstNameEditText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
@@ -51,29 +112,30 @@
                 android:ems="10"
                 android:hint="@string/first_name"
                 android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="Autofill" />
 
             <EditText
                 android:id="@+id/lastNameEditText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:ems="10"
                 android:hint="@string/last_name"
                 android:inputType="textPersonName"
+                android:textSize="16sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/firstNameEditText"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/firstNameEditText"
+                app:layout_constraintStart_toStartOf="@+id/guideline4"
                 tools:ignore="Autofill" />
 
             <EditText
                 android:id="@+id/usernameEditText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="44dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
@@ -81,6 +143,7 @@
                 android:ems="10"
                 android:hint="@string/desired_username"
                 android:inputType="text"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lastNameEditText"
@@ -88,7 +151,7 @@
 
             <EditText
                 android:id="@+id/phoneEditText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
@@ -96,20 +159,11 @@
                 android:ems="10"
                 android:hint="@string/phone_number"
                 android:inputType="phone"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/photoButton"
+                app:layout_constraintTop_toBottomOf="@id/usernameEditText"
                 tools:ignore="Autofill" />
-
-            <Button
-                android:id="@+id/photoButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/upload_a_photo"
-                app:layout_constraintEnd_toStartOf="@+id/orTextView"
-                app:layout_constraintTop_toBottomOf="@+id/initImageView" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline4"
@@ -122,26 +176,30 @@
                 android:id="@+id/signUpButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginStart="16dp"
+                android:background="#10BAB6"
                 android:text="@string/sign_up"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@+id/confirmPasswordEditText" />
+                android:textColor="#FFFFFF"
+                app:layout_constraintBaseline_toBaselineOf="@+id/cancelButton"
+                app:layout_constraintStart_toStartOf="@+id/guideline4" />
 
             <Button
                 android:id="@+id/cancelButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:background="#75316A"
                 android:text="@string/cancel"
-                app:layout_constraintBaseline_toBaselineOf="@+id/signUpButton"
-                app:layout_constraintStart_toStartOf="@+id/guideline4" />
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                app:layout_constraintTop_toBottomOf="@+id/confirmPasswordEditText" />
 
             <EditText
                 android:id="@+id/passwordEditText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
@@ -149,6 +207,7 @@
                 android:ems="10"
                 android:hint="@string/password"
                 android:inputType="textPassword"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/phoneEditText"
@@ -156,7 +215,7 @@
 
             <EditText
                 android:id="@+id/confirmPasswordEditText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
@@ -164,43 +223,13 @@
                 android:ems="10"
                 android:hint="@string/confirm_password"
                 android:inputType="textPassword"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
                 tools:ignore="Autofill" />
 
-            <ImageView
-                android:id="@+id/initImageView"
-                android:layout_width="188dp"
-                android:layout_height="127dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:contentDescription="@string/profile_image"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/usernameEditText"
-                tools:srcCompat="@tools:sample/backgrounds/scenic[11]" />
-
-            <Button
-                android:id="@+id/takePhotoButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/take_a_photo"
-                app:layout_constraintBaseline_toBaselineOf="@+id/photoButton"
-                app:layout_constraintStart_toEndOf="@+id/orTextView" />
-
-            <TextView
-                android:id="@+id/orTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/or"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                app:layout_constraintBaseline_toBaselineOf="@+id/photoButton"
-                app:layout_constraintStart_toStartOf="@+id/guideline4" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
